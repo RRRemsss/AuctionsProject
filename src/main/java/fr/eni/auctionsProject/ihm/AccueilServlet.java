@@ -8,25 +8,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Servlet implementation class utilisateurServlet
+ * Servlet implementation class AccueilServlet
  */
-public class utilisateurServlet extends HttpServlet {
+@WebServlet(
+			urlPatterns = "/AccueilServlet"
+		)
+public class AccueilServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public utilisateurServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getRequestDispatcher("/WEB-INF/pages/Accueil.jsp").forward(request, response);
 	}
 
 	/**
