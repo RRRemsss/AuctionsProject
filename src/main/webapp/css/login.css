@@ -1,0 +1,58 @@
+@charset "UTF-8";@charset "UTF-8";
+section{
+	min-height: 100vh;
+	width: 100vw;
+	background-color: #2F3C42;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+main{
+	padding: 20px 40px;
+	background-color: #37474F;
+	width: fit-content;
+	height: fit-content;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	color: white;
+	gap: 20px;
+}
+
+a, button{
+	border: none;
+	display: block;
+	padding: 15px 30px;
+	background-color: #4FABA2;
+	width: fit-content;
+	text-decoration: none;
+	color: white;
+	font-weight: 700;
+	font-size: 1rem;
+	font-family: "Montserrat";
+	height: 50px;
+}
+.buttons{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 40px;
+	margin-top: 20px;
+}
+.input{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 30px;
+	margin: 15px 0px;
+}
+input{
+	height: 30px;
+	padding: 3px;
+	font-size: 1rem;
+}
+
+.forgot {
+	text-decoration: underline;
+}

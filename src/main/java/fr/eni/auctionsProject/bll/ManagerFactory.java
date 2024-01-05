@@ -6,4 +6,8 @@ public class ManagerFactory {
 		return new UtilisateurManager();
 	}
 	
+	public static ArticleManager getArticleManager() {
+		return new ArticleManager();
+	
+	}
 }

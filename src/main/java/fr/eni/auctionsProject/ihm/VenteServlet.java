@@ -3,7 +3,6 @@ package fr.eni.auctionsProject.ihm;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 import fr.eni.auctionsProject.bo.Article;
 import jakarta.servlet.ServletException;
