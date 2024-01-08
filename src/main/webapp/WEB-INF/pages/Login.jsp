@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="fr.eni.auctionsProject.exceptions.LecteurMessage" %>
+<%@taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,15 +15,23 @@
 <body>
 	<section>
 		<main>
-
-			<form action="" method="POST">
+			<c:if test="${!empty requestScope.listeErreurs}">
+				<div class="erreurs">
+					<ul>
+						<c:forEach var="codeErreur" items="${requestScope.listeErreurs}">
+							<li>${LecteurMessage.getMessageErreur(codeErreur)}</li>
+						</c:forEach>
+					</ul>
+				</div>
+			</c:if>
+			<form action="/AuctionProject/LoginServlet" method="POST">
 				<div class="input">
 					<label for="username">Identifiant :</label> <input type="text"
-						name="username" id="username">
+						name="username" id="username" >
 				</div>
 				<div class="input">
 					<label for="password">Mot de passe :</label> <input
-						type="password" name="password" id="password">
+						type="password" name="password" id="password" >
 				</div>
 				<div class="buttons">
 					<button type="submit">Connexion</button>
@@ -32,7 +42,7 @@
 					<a href="">Mot de passe oublié ?</a>
 				</div>
 				<div class="input">
-					<a href="<%=request.getContextPath()%>">Créer un compte</a>
+					<a href="<c:url value="/CreationCompte" />">Créer un compte</a>
 					<!-- Lien vers création compte -->
 				</div>
 

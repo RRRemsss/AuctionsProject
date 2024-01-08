@@ -10,7 +10,9 @@ public interface utilisateurDAO {
 
 	public void update(Utilisateur utilisateur);
 
-	public void insert(Utilisateur utilisateur);
+	public Utilisateur insert(Utilisateur utilisateur);
 
 	public void delete(int noUtilisateur);
+	
+	public Utilisateur selectByPseudo(String pseudo);
 }

@@ -7,6 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import fr.eni.auctionsProject.bll.ManagerFactory;
+import fr.eni.auctionsProject.bll.UtilisateurManager;
+import fr.eni.auctionsProject.bo.Utilisateur;
+
 /**
  * Servlet implementation class ConsultationProfilservlet
  */
@@ -20,6 +24,13 @@ public class ConsultationProfilservlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String pseudo = request.getParameter("pseudo");
+	    if (pseudo != null) {
+	        UtilisateurManager utilisateurManager = ManagerFactory.getUtilisateurManager();
+	        Utilisateur user = utilisateurManager.getUserByPseudo(pseudo);
+	        request.setAttribute("user_info", user);
+	    }
+		
 		request.getRequestDispatcher("/WEB-INF/pages/ConsultationProfil.jsp").forward(request, response);
 	}
 

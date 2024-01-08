@@ -14,40 +14,42 @@
 		<main>
 			<h1>Consultation du profil</h1>
 			<div>
-				<div class="ligne">
-					<p>Pseudo : </p>
-					<p>TonyM</p>
-				</div>
-				<div class="ligne">
-					<p>Nom : </p>
-					<p>Mascate</p>
-				</div>
-				<div class="ligne">
-					<p>Prénom : </p>
-					<p>Tony</p>
-				</div>
-				<div class="ligne">
-					<p>Email : </p>
-					<p>tony.mascate2023@campus-eni.fr</p>
-				</div>
-				<div class="ligne">
-					<p>Téléphone : </p>
-					<p>0607048543</p>
-				</div>
-				<div class="ligne">
-					<p>Rue : </p>
-					<p>Chemin de l'ENI</p>
-				</div>
-				<div class="ligne">
-					<p>Code postal : </p>
-					<p>17000</p>
-				</div>
-				<div class="ligne">
-					<p>Ville : </p>
-					<p>Une ville</p>
-				</div>
-			</div>
-			<a href='<c:url value="/ModificationProfilServlet"/>'>Modifier</a>
+                <div class="ligne">
+                    <p>Pseudo : </p>
+                    <p>${user_info.pseudo}</p>
+                </div>
+                <div class="ligne">
+                    <p>Nom : </p>
+                    <p>${user_info.nom}</p>
+                </div>
+                <div class="ligne">
+                    <p>Prénom : </p>
+                    <p>${user_info.prenom}</p>
+                </div>
+                <div class="ligne">
+                    <p>Email : </p>
+                    <p>${user_info.email}</p>
+                </div>
+                <div class="ligne">
+                    <p>Téléphone : </p>
+                    <p>${user_info.telephone}</p>
+                </div>
+                <div class="ligne">
+                    <p>Rue : </p>
+                    <p>${user_info.rue}</p>
+                </div>
+                <div class="ligne">
+                    <p>Code postal : </p>
+                    <p>${user_info.codePostal}</p>
+                </div>
+                <div class="ligne">
+                    <p>Ville : </p>
+                    <p>${user_info.ville}</p>
+                </div>
+            </div>
+            <c:if test="${!empty user && sessionScope.user.getPseudo() == user_info.pseudo }">
+				<a href='<c:url value="/ModificationProfilServlet"/>'>Modifier</a>  
+            </c:if>
 		</main>
 	</section>
 </body>

@@ -2,9 +2,12 @@ package fr.eni.auctionsProject.ihm;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,47 +39,7 @@ public class CreationCompteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				
-		try {
-			// Gestion des erreurs en cas de champs vides
-			BusinessException businessException = new BusinessException();
-			if(request.getParameter("pseudo") == null || request.getParameter("pseudo").isEmpty()) {
-				businessException.ajouterErreur(CodesResultatIHM.PSEUDO_USER_OBLIGATOIRE);
-			}
-			if(request.getParameter("nom") == null || request.getParameter("nom").isEmpty()) {
-				businessException.ajouterErreur(CodesResultatIHM.NOM_USER_OBLIGATOIRE);
-			}
-			if(request.getParameter("prenom") == null || request.getParameter("prenom").isEmpty()) {
-				businessException.ajouterErreur(CodesResultatIHM.PRENOM_USER_OBLIGATOIRE);
-			}
-			if(request.getParameter("email") == null || request.getParameter("email").isEmpty()) {
-				businessException.ajouterErreur(CodesResultatIHM.EMAIL_USER_OBLIGATOIRE);
-			}
-			if(request.getParameter("rue") == null || request.getParameter("rue").isEmpty()) {
-				businessException.ajouterErreur(CodesResultatIHM.RUE_USER_OBLIGATOIRE);
-			}
-			if(request.getParameter("cp") == null || request.getParameter("cp").isEmpty()) {
-				businessException.ajouterErreur(CodesResultatIHM.CP_USER_OBLIGATOIRE);
-			}
-			if(request.getParameter("ville") == null || request.getParameter("ville").isEmpty()) {
-				businessException.ajouterErreur(CodesResultatIHM.VILLE_USER_OBLIGATOIRE);
-			}
-			if(request.getParameter("password") == null || request.getParameter("password").isEmpty()) {
-				businessException.ajouterErreur(CodesResultatIHM.PASSWORD_USER_OBLIGATOIRE);
-			}
-			if(request.getParameter("confirm") == null || request.getParameter("confirm").isEmpty()) {
-				businessException.ajouterErreur(CodesResultatIHM.CONFIRMPASSWORD_USER_OBLIGATOIRE);
-			}
-			
-			// Throw erreur si la liste des erreurs n'est pas vide
-			if(businessException.hasErreurs()) {
-				throw businessException;
-			}
-			
-			// Générer un sel (salt) avec un facteur de coût par défaut de 12
-	        BCrypt.Hasher hasher = BCrypt.withDefaults();
-	        // Hacher le mot de passe avec le sel généré
-	        String hashedPassword = hasher.hashToString(12, request.getParameter("password").toCharArray());
-			
+		try {				
 			Utilisateur user = new Utilisateur(
 						request.getParameter("pseudo"),
 						request.getParameter("nom"),
@@ -86,16 +49,18 @@ public class CreationCompteServlet extends HttpServlet {
 						request.getParameter("rue"),
 						request.getParameter("cp"),
 						request.getParameter("ville"),
-						hashedPassword,
-						0,
+						request.getParameter("password"),
+						100,
 						false
 					);
 			
 			UtilisateurManager utilisateurManager = ManagerFactory.getUtilisateurManager();
+			Utilisateur createdUser = utilisateurManager.createUser(user);
 			
-			utilisateurManager.createUser(user);
+			HttpSession session = request.getSession();
+			session.setAttribute("user", createdUser);
 			
-			request.getRequestDispatcher("/WEB-INF/pages/Accueil.jsp").forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/AccueilServlet");
 		} catch (BusinessException e) {
 		    e.printStackTrace();
 		    request.setAttribute("listeErreurs", e.getListeCodesErreur());
