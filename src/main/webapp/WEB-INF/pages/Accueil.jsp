@@ -14,6 +14,7 @@
             <c:when test="${!empty user}">
                 <p>${user}</p>
                 <a href="<c:url value="/ConsultationProfilServlet?pseudo=${user.getPseudo() }" />">Mon profil</a>
+               	<a href="<c:url value="/VenteServlet" />">Vendre un article</a>
                 <a href="<c:url value="/DeconnexionServlet" />">Déconnexion</a>
             </c:when>
             <c:otherwise>

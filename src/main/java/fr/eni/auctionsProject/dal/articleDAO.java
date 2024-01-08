@@ -13,7 +13,7 @@ public interface articleDAO {
 
 		public List<Article> selectAll();
 
-		public void insert(Article article);
+		public Article insert(Article article);
 
 		public void delete(int noArticle);
 }

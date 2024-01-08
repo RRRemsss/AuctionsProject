@@ -24,7 +24,7 @@
 					</ul>
 				</div>
 			</c:if>
-			<form action="/AuctionProject/LoginServlet" method="POST">
+			<form  method="POST">
 				<div class="input">
 					<label for="username">Identifiant :</label> <input type="text"
 						name="username" id="username" >

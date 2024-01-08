@@ -1,10 +1,12 @@
 package fr.eni.auctionsProject.ihm;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 
+import fr.eni.auctionsProject.bll.ArticleManager;
+import fr.eni.auctionsProject.bll.ManagerFactory;
 import fr.eni.auctionsProject.bo.Article;
+import fr.eni.auctionsProject.bo.Retrait;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,20 +27,66 @@ public class VenteServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/pages/NewVente.jsp").forward(request, response);
+		System.out.println("test do get");
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Image récup url
+		//Récupération des données
+		System.out.println("test do post");
 		String nomArticle = request.getParameter("nomArticle");
 		String description = request.getParameter("description");
-		String categorie = request.getParameter("Informatique");
-		InputStream inputStream = request.getPart("photo").getInputStream();
-		int prixInitial = Integer.parseInt(request.getParameter("prixInitial"));
-		LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
-		LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
+		int noCategorie = 1;
+		//InputStream inputStream = request.getPart("photo").getInputStream();
+		int prixInitial = 100;
+		System.out.println (prixInitial);
+		String dateDebut = request.getParameter("dateDebut");
+		String dateFin = request.getParameter("dateFin");
+		LocalDate localDateDebut = null;
+		LocalDate localDateFin = null;
+
+		if (dateDebut != null && !dateDebut.isEmpty()) {
+		    localDateDebut = LocalDate.parse(dateDebut);
+		}
+
+		if (dateFin != null && !dateFin.isEmpty()) {
+		    localDateFin = LocalDate.parse(dateFin);
+		}
 		
-		Article article = new Article();
-	
+		System.out.println (dateDebut);
+		System.out.println (dateFin);
 		
+		
+		
+		String rue = request.getParameter("rue");
+		String cp = request.getParameter("cp");
+		String ville = request.getParameter("ville");
+		
+		
+		
+		//céation du nouvel objet
+		
+		
+	     Article article = new Article( nomArticle,  description,localDateDebut,localDateFin,prixInitial, noCategorie);
+	     
+	     Retrait retrait = new Retrait();
+	     
+	     retrait.setRue(rue);
+	     retrait.setCodePostal(cp);
+	     retrait.setVille(ville);
+	     System.out.println(article);
+	     System.out.println(retrait);
+	   //Persist
+	     
+	     ArticleManager articleManager = ManagerFactory.getArticleManager();
+	 
+	     
+	     articleManager.createArticle(article,retrait);
+	    
+	    
+	     
+	      
+	      response.sendRedirect(request.getContextPath()+"/AccueilServlet");
 	}
 }

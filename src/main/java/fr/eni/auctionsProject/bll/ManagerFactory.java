@@ -10,4 +10,6 @@ public class ManagerFactory {
 		return new ArticleManager();
 	
 	}
+	
+
 }

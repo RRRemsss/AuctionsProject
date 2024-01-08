@@ -62,23 +62,25 @@ public class articleDaoImpl implements articleDAO{
 	}
 
 	@Override
-	public void insert(Article article) {
+	public Article insert(Article article) {
 
 	try (Connection connection = ConnectionProvider.getConnection();
 		PreparedStatement pstmt = connection.prepareStatement(INSERT_ARTICLE, PreparedStatement.RETURN_GENERATED_KEYS);){
 		
 		sqlMapperHelper.mapOutArticle(pstmt, article);
-		pstmt.executeUpdate();
-		
-		ResultSet result = pstmt.getGeneratedKeys();
-		result.next();
-		article.setNoArticle(result.getInt(1));
-
+		int nbRows = pstmt.executeUpdate();
+		if(nbRows > 0) {
+			try (ResultSet rs = pstmt.getGeneratedKeys()){
+				if(rs.next()) {
+					article.setNoArticle(rs.getInt(1));
+				}
+			}
+		}
 		
 	} catch (SQLException e) {
 		e.printStackTrace();
 	}
-		
+		return article;
 	}
 
 	@Override

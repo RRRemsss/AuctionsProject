@@ -13,7 +13,7 @@ public class Article {
 	private int prixVente;
 	private int noUtilisateur;
 	private int noCategorie;
-	private String lieuRetrait;
+
 	
 	
 	
@@ -28,10 +28,9 @@ public class Article {
 	 * @param prixVente
 	 * @param noUtilisateur
 	 * @param noCategorie
-	 * @param lieuRetrait
 	 */
 	public Article(int noArticle, String nomArticle, String description, LocalDate dateDebut, LocalDate dateFin,
-			int prixInitial, int prixVente, int noUtilisateur, int noCategorie, String lieuRetrait) {
+			int prixInitial, int prixVente, int noUtilisateur, int noCategorie) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -41,7 +40,7 @@ public class Article {
 		this.prixVente = prixVente;
 		this.noUtilisateur = noUtilisateur;
 		this.noCategorie = noCategorie;
-		this.lieuRetrait = lieuRetrait;
+		
 	}
 	
 	
@@ -55,10 +54,10 @@ public class Article {
 	 * @param prixVente
 	 * @param noUtilisateur
 	 * @param noCategorie
-	 * @param lieuRetrait
+	 
 	 */
 	public Article(String nomArticle, String description, LocalDate dateDebut, LocalDate dateFin, int prixInitial,
-			int prixVente, int noUtilisateur, int noCategorie, String lieuRetrait) {
+			int prixVente, int noUtilisateur, int noCategorie) {
 		this.nomArticle = nomArticle;
 		this.description = description;
 		this.dateDebut = dateDebut;
@@ -67,8 +66,21 @@ public class Article {
 		this.prixVente = prixVente;
 		this.noUtilisateur = noUtilisateur;
 		this.noCategorie = noCategorie;
-		this.lieuRetrait = lieuRetrait;
+	
 	}
+	 
+	public Article(String nomArticle, String description, LocalDate dateDebut, LocalDate dateFin, int prixInitial,
+			int noCategorie) {
+		super();
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.prixInitial = prixInitial;
+		this.noCategorie = noCategorie;
+	}
+
+
 
 	/**
 	 * 
@@ -76,24 +88,6 @@ public class Article {
 	public Article() {
 	}
 	
-	
-	/**
-	 * @return the lieuRetrait
-	 */
-	public String getLieuRetrait() {
-		return lieuRetrait;
-	}
-
-
-	/**
-	 * @param lieuRetrait the lieuRetrait to set
-	 */
-	public void setLieuRetrait(String lieuRetrait) {
-		this.lieuRetrait = lieuRetrait;
-	}
-
-
-
 	/**
 	 * @return the noArticle
 	 */

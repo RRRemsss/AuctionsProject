@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import fr.eni.auctionsProject.bo.Article;
+import fr.eni.auctionsProject.bo.Retrait;
 
 public class sqlMapperHelper {
 
@@ -51,13 +52,42 @@ public class sqlMapperHelper {
 			pstmt.setDate(4, Date.valueOf(article.getDateFin()));
 			pstmt.setInt(5, article.getPrixInitial());
 			pstmt.setInt(6, article.getPrixVente());
-			pstmt.setInt(7, article.getNoUtilisateur());
-			pstmt.setInt(8, article.getNoCategorie());
+			pstmt.setInt(7,1/* article.getNoUtilisateur()*/);
+			pstmt.setInt(8,1/* article.getNoCategorie()*/);
 			
 		}catch (SQLException e){
 			e.printStackTrace();
 		}
-	
 	}
+	
+	public static void mapOutRetrait(PreparedStatement pstmt, Retrait retrait) {
+		// Remplir chaque ?
+		try {
+			pstmt.setInt(1, retrait.getNoArticle());
+			pstmt.setString(2, retrait.getRue());
+			pstmt.setString(3, retrait.getCodePostal());
+			pstmt.setString(4, retrait.getVille());
+			
+			
+			
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+		}
+
+
+	public static Retrait mapOutRetrait(ResultSet result) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public static Article mapOutArticle(ResultSet result) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
 }
 

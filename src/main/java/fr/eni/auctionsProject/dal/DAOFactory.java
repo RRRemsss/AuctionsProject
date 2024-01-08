@@ -1,6 +1,7 @@
 package fr.eni.auctionsProject.dal;
 
 import fr.eni.auctionsProject.dal.jdbc.articleDaoImpl;
+import fr.eni.auctionsProject.dal.jdbc.retraitDaoImpl;
 import fr.eni.auctionsProject.dal.jdbc.utilisateurDaoImpl;
 
 public class DAOFactory {
@@ -18,5 +19,13 @@ public class DAOFactory {
 			daoArticle = new articleDaoImpl();
 		}
 		return daoArticle;
+	}
+	
+	private static retraitDAO daoRetrait;
+	public static retraitDAO getDaoRetrait() {
+		if(daoRetrait == null) {
+			daoRetrait = new retraitDaoImpl();
+		}
+		return daoRetrait;
 	}
 }

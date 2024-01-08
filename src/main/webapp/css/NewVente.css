@@ -1,0 +1,62 @@
+@charset "UTF-8";
+nav{
+	background-color: #37474F;
+	display: flex;
+}
+nav h1{
+	background-color: #4FABA2;
+	color: white;
+	display: flex;
+	
+}
+
+section{
+	min-height: 100vh;
+	width: 100vw;
+	background-color: #2F3C42;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+main{
+	padding: 20px 40px;
+	background-color: #37474F;
+	width: fit-content;
+	height: fit-content;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	color: white;
+	gap: 20px;
+}
+
+
+a, button{
+	display: block;
+	padding: 15px 30px;
+	background-color: #4FABA2;
+	width: fit-content;
+	text-decoration: none;
+	color: white;
+	font-weight: 700;
+	border: none;
+}
+.boutons,.categorie{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+}
+fieldset{
+
+    border: 1px solid white;
+	position: relative;
+}
+legend{
+	background-color: #37474F;
+	position: absolute;
+	top:-10px;
+	left :10px;
+}
+		

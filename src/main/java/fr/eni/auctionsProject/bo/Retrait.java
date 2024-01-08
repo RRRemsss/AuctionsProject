@@ -6,32 +6,32 @@ public class Retrait {
 	private String rue;
 	private String codePostal;
 	private String ville;
-	private int idRetrait;
+	
 	/**
 	 * @param noArticle
 	 * @param rue
 	 * @param codePostal
 	 * @param ville
-	 * @param idRetrait
+	
 	 */
-	public Retrait(int noArticle, String rue, String codePostal, String ville, int idRetrait) {
+	public Retrait(int noArticle, String rue, String codePostal, String ville) {
 		this.noArticle = noArticle;
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
-		this.idRetrait = idRetrait;
+		
 	}
 	/**
 	 * @param rue
 	 * @param codePostal
 	 * @param ville
-	 * @param idRetrait
+	
 	 */
-	public Retrait(String rue, String codePostal, String ville, int idRetrait) {
+	public Retrait(String rue, String codePostal, String ville) {
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
-		this.idRetrait = idRetrait;
+		
 	}
 	/**
 	 * 
@@ -86,24 +86,11 @@ public class Retrait {
 	public void setVille(String ville) {
 		this.ville = ville;
 	}
-	/**
-	 * @return the idRetrait
-	 */
-	public int getIdRetrait() {
-		return idRetrait;
-	}
-	/**
-	 * @param idRetrait the idRetrait to set
-	 */
-	public void setIdRetrait(int idRetrait) {
-		this.idRetrait = idRetrait;
-	}
-	
 	
 	@Override
 	public String toString() {
 		return "Retrait [noArticle=" + noArticle + ", rue=" + rue + ", codePostal=" + codePostal + ", ville=" + ville
-				+ ", idRetrait=" + idRetrait + "]";
+				+  "]";
 	}
 	
 
