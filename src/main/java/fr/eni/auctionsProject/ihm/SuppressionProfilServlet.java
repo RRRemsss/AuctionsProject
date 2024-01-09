@@ -5,7 +5,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
+
+import fr.eni.auctionsProject.bll.ManagerFactory;
+import fr.eni.auctionsProject.bll.UtilisateurManager;
 
 /**
  * Servlet implementation class SuppressionProfilServlet
@@ -20,7 +25,15 @@ public class SuppressionProfilServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/pages/Accueil.jsp").forward(request, response);
+		int noutilisateur = Integer.parseInt(request.getParameter("id"));
+		
+		UtilisateurManager utilisateurManager = ManagerFactory.getUtilisateurManager();
+		utilisateurManager.deleteUser(noutilisateur);
+		
+		HttpSession session = request.getSession(false);
+		session.removeAttribute("user");
+		
+		response.sendRedirect(request.getContextPath() + "/AccueilServlet");
 	}
 
 	/**

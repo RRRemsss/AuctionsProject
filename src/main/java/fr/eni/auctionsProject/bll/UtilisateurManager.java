@@ -71,6 +71,9 @@ public class UtilisateurManager {
 		if (password == null || password.isEmpty()) {
 			businessException.ajouterErreur(8);
 		}
+		else if (user == null || user.getMotDePasse() == null || user.getMotDePasse().isEmpty()) {
+	        businessException.ajouterErreur(10);
+	    }
 		if (businessException.hasErreurs()) {
 			throw businessException;
 		}
@@ -91,4 +94,95 @@ public class UtilisateurManager {
 		utilisateurDAO daouUtilisateur = DAOFactory.getDaoUtilisateur();
 		return daouUtilisateur.selectByPseudo(pseudo);
 	}
+	
+	public void updateUser(Utilisateur InitialUtilisateur, Utilisateur utilisateur, String newPassword, String confirmNewPassword) throws BusinessException {
+		
+		BusinessException businessException = new BusinessException();
+		
+		// Verification des champs afin qu'ils ne soient pas vides
+		if (utilisateur.getPseudo() == null || utilisateur.getPseudo().isEmpty()) {
+			businessException.ajouterErreur(CodesResultatIHM.PSEUDO_USER_OBLIGATOIRE);
+		}
+		if (utilisateur.getNom() == null || utilisateur.getNom().isEmpty()) {
+			businessException.ajouterErreur(CodesResultatIHM.NOM_USER_OBLIGATOIRE);
+		}
+		if (utilisateur.getPrenom() == null || utilisateur.getPrenom().isEmpty()) {
+			businessException.ajouterErreur(CodesResultatIHM.PRENOM_USER_OBLIGATOIRE);
+		}
+		if (utilisateur.getEmail() == null || utilisateur.getEmail().isEmpty()) {
+			businessException.ajouterErreur(CodesResultatIHM.EMAIL_USER_OBLIGATOIRE);
+		}
+		if (utilisateur.getRue() == null || utilisateur.getRue().isEmpty()) {
+			businessException.ajouterErreur(CodesResultatIHM.RUE_USER_OBLIGATOIRE);
+		}
+		if (utilisateur.getCodePostal() == null || utilisateur.getCodePostal().isEmpty()) {
+			businessException.ajouterErreur(CodesResultatIHM.CP_USER_OBLIGATOIRE);
+		}
+		if (utilisateur.getVille() == null || utilisateur.getVille().isEmpty()) {
+			businessException.ajouterErreur(CodesResultatIHM.VILLE_USER_OBLIGATOIRE);
+		}
+		if (utilisateur.getMotDePasse() == null || utilisateur.getMotDePasse().isEmpty()) {
+			businessException.ajouterErreur(CodesResultatIHM.PASSWORD_USER_OBLIGATOIRE);
+		}
+		
+		// Vérifier le mot de passe entre celui en session et celui entré dans le formulaire de modification
+		Verifyer verifyer = BCrypt.verifyer();
+		BCrypt.Result result = verifyer.verify(utilisateur.getMotDePasse().toCharArray(), InitialUtilisateur.getMotDePasse());
+
+		if (!result.verified) {
+			businessException.ajouterErreur(10);
+		}
+		// Jeter une erreur si seul un des deux champs est rempli pour le changement de mot de passe
+		if ((newPassword != null && !newPassword.isEmpty() && (confirmNewPassword == null || confirmNewPassword.isEmpty())) ||
+			    (confirmNewPassword != null && !confirmNewPassword.isEmpty() && (newPassword == null || newPassword.isEmpty()))) {
+			    businessException.ajouterErreur(11);
+			}
+		
+
+
+
+		// Throw erreur si la liste des erreurs n'est pas vide
+		if (businessException.hasErreurs()) {
+			throw businessException;
+		}
+		
+		utilisateurDAO daouUtilisateur = DAOFactory.getDaoUtilisateur();
+		daouUtilisateur.update(utilisateur);
+		// Vérifier si l'utilisateur veut changer de mot de passe, et si oui le changer
+		if(newPassword != null && !newPassword.isEmpty() && confirmNewPassword != null && !confirmNewPassword.isEmpty() && newPassword.equals(confirmNewPassword)) {
+			// Générer un sel (salt) avec un facteur de coût par défaut de 12
+			BCrypt.Hasher hasher = BCrypt.withDefaults();
+			// Hacher le mot de passe avec le sel généré
+			String hashedPassword = hasher.hashToString(12, newPassword.toCharArray());
+			utilisateur.setMotDePasse(hashedPassword);
+			daouUtilisateur.updatePassword(utilisateur);
+		}
+	}
+
+	public void deleteUser(int noUtilisateur) {
+		utilisateurDAO daouUtilisateur = DAOFactory.getDaoUtilisateur();
+		daouUtilisateur.delete(noUtilisateur);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

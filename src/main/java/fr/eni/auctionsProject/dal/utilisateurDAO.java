@@ -15,4 +15,6 @@ public interface utilisateurDAO {
 	public void delete(int noUtilisateur);
 	
 	public Utilisateur selectByPseudo(String pseudo);
+	
+	public void updatePassword(Utilisateur utilisateur);
 }
