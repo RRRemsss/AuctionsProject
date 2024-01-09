@@ -13,10 +13,22 @@ public class Article {
 	private int prixVente;
 	private int noUtilisateur;
 	private int noCategorie;
+	private Utilisateur utilisateur;
+	
+	
 
 	
-	
-	
+	/**
+	 * @param noArticle
+	 * @param utilisateur
+	 */
+	public Article(int noArticle, Utilisateur utilisateur) {
+		this.noArticle = noArticle;
+		this.utilisateur = utilisateur;
+	}
+
+
+
 	
 	/**
 	 * @param noArticle
@@ -195,6 +207,21 @@ public class Article {
 	 */
 	public void setNoCategorie(int noCategorie) {
 		this.noCategorie = noCategorie;
+	}
+	
+	/**
+	 * @return the utilisateur
+	 */
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
+
+
+	/**
+	 * @param utilisateur the utilisateur to set
+	 */
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 	
 	@Override

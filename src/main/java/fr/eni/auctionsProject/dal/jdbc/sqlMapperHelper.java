@@ -52,7 +52,7 @@ public class sqlMapperHelper {
 			pstmt.setDate(4, Date.valueOf(article.getDateFin()));
 			pstmt.setInt(5, article.getPrixInitial());
 			pstmt.setInt(6, article.getPrixVente());
-			pstmt.setInt(7,1/* article.getNoUtilisateur()*/);
+			pstmt.setInt(7, article.getNoUtilisateur());
 			pstmt.setInt(8,1/* article.getNoCategorie()*/);
 			
 		}catch (SQLException e){

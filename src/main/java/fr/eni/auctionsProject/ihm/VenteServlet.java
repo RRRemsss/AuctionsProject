@@ -7,11 +7,13 @@ import fr.eni.auctionsProject.bll.ArticleManager;
 import fr.eni.auctionsProject.bll.ManagerFactory;
 import fr.eni.auctionsProject.bo.Article;
 import fr.eni.auctionsProject.bo.Retrait;
+import fr.eni.auctionsProject.bo.Utilisateur;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -34,13 +36,13 @@ public class VenteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Image récup url
 		//Récupération des données
-		System.out.println("test do post");
+		HttpSession session =  request.getSession(false);
+		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 		String nomArticle = request.getParameter("nomArticle");
 		String description = request.getParameter("description");
 		int noCategorie = 1;
 		//InputStream inputStream = request.getPart("photo").getInputStream();
-		int prixInitial = 100;
-		System.out.println (prixInitial);
+		int prixInitial = Integer.parseInt(request.getParameter("prixInitial"));
 		String dateDebut = request.getParameter("dateDebut");
 		String dateFin = request.getParameter("dateFin");
 		LocalDate localDateDebut = null;
@@ -54,21 +56,16 @@ public class VenteServlet extends HttpServlet {
 		    localDateFin = LocalDate.parse(dateFin);
 		}
 		
-		System.out.println (dateDebut);
-		System.out.println (dateFin);
-		
-		
-		
 		String rue = request.getParameter("rue");
 		String cp = request.getParameter("cp");
 		String ville = request.getParameter("ville");
 		
 		
 		
-		//céation du nouvel objet
+		//création du nouvel objet
 		
 		
-	     Article article = new Article( nomArticle,  description,localDateDebut,localDateFin,prixInitial, noCategorie);
+	     Article article = new Article( nomArticle,  description,localDateDebut,localDateFin,prixInitial, prixInitial, utilisateur.getNoUtilisateur(), noCategorie);
 	     
 	     Retrait retrait = new Retrait();
 	     
@@ -86,7 +83,7 @@ public class VenteServlet extends HttpServlet {
 	    
 	    
 	     
-	      
+	  
 	      response.sendRedirect(request.getContextPath()+"/AccueilServlet");
 	}
 }

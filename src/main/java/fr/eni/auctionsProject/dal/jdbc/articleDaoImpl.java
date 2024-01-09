@@ -14,7 +14,7 @@ import fr.eni.auctionsProject.dal.articleDAO;
 public class articleDaoImpl implements articleDAO{
 
 	private final static String SELECT_BY_ID = "SELECT * FROM ARTICLES WHERE no_article =?";
-	private final static String SELECT_ALL_ARTICLE = "SELECT * FROM ARTICLES";
+	private final static String SELECT_ALL_ARTICLE = "SELECT * FROM ARTICLES ";
 	private final static String INSERT_ARTICLE = "INSERT INTO ARTICLES (nom_article, description, date_debut_encheres, "
 												+ "date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
 	private final static String DELETE_ARTICLE = "DELETE FROM ARTICLES WHERE no_article =?";
@@ -58,6 +58,8 @@ public class articleDaoImpl implements articleDAO{
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		
+		
 		return articles;	
 	}
 

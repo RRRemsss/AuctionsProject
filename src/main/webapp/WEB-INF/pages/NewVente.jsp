@@ -54,15 +54,15 @@
 
 				<div>
 					<label for="prixInitial">mise à prix:</label> <input type="number"
-						id="tentacles" name="mise a prix" min="100" max="100000" value="100" />
+						id="tentacles" name="prixInitial" min="100" max="100000" value="100" />
 				</div>
 
 				<div>
 					<label for="dateDebut">Début de l'enchère:</label> 
-						<input	type="date" id="dateDebut" name="dateDebut" value="2024-01-12"	min="2024-01-12" max="2024-12-31" /> 
+						<input	type="date" id="dateDebut" name="dateDebut" value=""	min="" max="" /> 
 						
 					<label for="dateFin">Fin de l'enchère:</label>
-						<input type="date" id="dateFin" name="dateFin" value="2024-01-12" min="2024-01-12" max="2024-12-31" />
+						<input type="date" id="dateFin" name="dateFin" value="" min="" max="" />
 				</div>
 
 				<div>
