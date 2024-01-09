@@ -1,10 +1,12 @@
 package fr.eni.auctionsProject.bll;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.auctionsProject.bo.Article;
 import fr.eni.auctionsProject.bo.Retrait;
+import fr.eni.auctionsProject.bo.Utilisateur;
 import fr.eni.auctionsProject.dal.DAOFactory;
 import fr.eni.auctionsProject.dal.articleDAO;
 import fr.eni.auctionsProject.dal.retraitDAO;
@@ -34,7 +36,37 @@ public class ArticleManager {
 		
 	}
 	
-
+	public List<Article> FiltrerVente(Utilisateur utilisateur, boolean venteCours, boolean venteNonDebutee, boolean venteTerminee) {
+		articleDAO DaoArticles = DAOFactory.getDaoArticle();
+		List<Article> articles = getArticleListe();
+		List<Article> articlesFiltres = new ArrayList<Article>();
+		
+		if(venteCours) {
+			for(Article article : articles) {
+				if(article.getDateDebut().isBefore(LocalDate.now()) && LocalDate.now().isBefore(article.getDateFin()) && article.getNoUtilisateur() == utilisateur.getNoUtilisateur()) {
+					articlesFiltres.add(article);
+				}
+			}
+		}
+		
+		if(venteNonDebutee) {
+			for(Article article : articles) {
+				if(LocalDate.now().isBefore(article.getDateDebut()) && article.getNoUtilisateur() == utilisateur.getNoUtilisateur()) {
+					articlesFiltres.add(article);
+				}
+			}
+		}
+		
+		if(venteTerminee) {
+			for(Article article : articles) {
+				if((LocalDate.now().isEqual(article.getDateFin()) || LocalDate.now().isAfter(article.getDateFin())) && article.getNoUtilisateur() == utilisateur.getNoUtilisateur()) {
+					articlesFiltres.add(article);
+				}
+			}
+		}
+		
+		return articlesFiltres;
+	}
 	
 }	
 	

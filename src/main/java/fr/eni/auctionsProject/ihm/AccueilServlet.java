@@ -31,7 +31,6 @@ public class AccueilServlet extends HttpServlet {
 		ArticleManager articleManager = ManagerFactory.getArticleManager();
 		List<Article> articleListe = articleManager.getArticleListe();
 		request.setAttribute("ListeArticles", articleListe);
-		System.out.println(request.getAttribute("ListeArticles"));
 		request.getRequestDispatcher("/WEB-INF/pages/Accueil.jsp").forward(request, response);
 		
 		
@@ -42,8 +41,21 @@ public class AccueilServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-			
+		HttpSession session = request.getSession(false);
+		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+		
+		ArticleManager articleManager = ManagerFactory.getArticleManager();
+		
+		Boolean venteCours = "on".equals(request.getParameter("venteCours"));
+		Boolean venteNonDebutee = "on".equals(request.getParameter("venteNonDebutee"));
+		Boolean venteTerminee = "on".equals(request.getParameter("venteTerminee"));
+		
+
+	    List<Article> articlesFiltres = articleManager.FiltrerVente( utilisateur ,venteCours,	venteNonDebutee, venteTerminee);
+	    
+	    request.setAttribute("ListeArticles", articlesFiltres);
+	    
+	    request.getRequestDispatcher("/WEB-INF/pages/Accueil.jsp").forward(request, response);
 	}
 
 }
