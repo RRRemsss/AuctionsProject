@@ -33,8 +33,6 @@ public class AccueilServlet extends HttpServlet {
 		request.setAttribute("ListeArticles", articleListe);
 		request.getRequestDispatcher("/WEB-INF/pages/Accueil.jsp").forward(request, response);
 		
-		
-		
 	}
 
 	/**
