@@ -14,4 +14,8 @@ public abstract class CodesResultatIHM {
 	public static final int VILLE_USER_OBLIGATOIRE = 7;
 	public static final int PASSWORD_USER_OBLIGATOIRE = 8;
 	public static final int CONFIRMPASSWORD_USER_OBLIGATOIRE = 9;
+	public static final int INDENTIFIANTS_INCORRECT = 10;
+	public static final int CONFIRMPASSWORD_PASSWORD_NONNULL = 9;
+	public static final int EMAIL_FORMAT_INCORRECT = 12;
+	public static final int PSEUDO_DEJA_UTILISE = 13;
 }

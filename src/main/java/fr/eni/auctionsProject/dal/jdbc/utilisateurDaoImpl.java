@@ -66,7 +66,7 @@ public class utilisateurDaoImpl implements utilisateurDAO {
 	}
 
 	@Override
-	public Utilisateur insert(Utilisateur utilisateur) {
+	public Utilisateur insert(Utilisateur utilisateur) throws SQLException {
 		try (Connection cnx = ConnectionProvider.getConnection();
 				PreparedStatement stmt = cnx.prepareStatement(SQL_INSERT_USER, Statement.RETURN_GENERATED_KEYS)) {
 			stmt.setString(1, utilisateur.getPseudo());
@@ -92,9 +92,7 @@ public class utilisateurDaoImpl implements utilisateurDAO {
 	                }
 	            }
 	        }
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		} 
 		return utilisateur;
 	}
 

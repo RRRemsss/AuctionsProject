@@ -15,6 +15,7 @@
 <body>
 	<section>
 		<main>
+			<h1>Connexion</h1>
 			<c:if test="${!empty requestScope.listeErreurs}">
 				<div class="erreurs">
 					<ul>
@@ -33,20 +34,16 @@
 					<label for="password">Mot de passe :</label> <input
 						type="password" name="password" id="password" >
 				</div>
-				<div class="buttons">
-					<button type="submit">Connexion</button>
+				<div class="input-checkbox">
 					<input type="checkbox" name="rememberme" id="rememberme"> <label
 						for="rememberme">Se souvenir de moi</label>
 				</div>
-				<div class="forgot">
-					<a href="">Mot de passe oublié ?</a>
+				<div class="buttons">
+					<button type="submit" class="connexion">Connexion</button>
+					<a href="<c:url value="/CreationCompte" />" class="creation">Créer un compte</a>
 				</div>
-				<div class="input">
-					<a href="<c:url value="/CreationCompte" />">Créer un compte</a>
-					<!-- Lien vers création compte -->
-				</div>
-
 			</form>
+			<a href="">Mot de passe oublié ?</a>
 		</main>
 	</section>
 </body>

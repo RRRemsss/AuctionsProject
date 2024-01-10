@@ -1,5 +1,8 @@
 package fr.eni.auctionsProject.bll;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.BCrypt.Verifyer;
 import fr.eni.auctionsProject.bo.Utilisateur;
@@ -24,6 +27,12 @@ public class UtilisateurManager {
 		}
 		if (utilisateur.getEmail() == null || utilisateur.getEmail().isEmpty()) {
 			businessException.ajouterErreur(CodesResultatIHM.EMAIL_USER_OBLIGATOIRE);
+		}else {
+		    // Utiliser une expression régulière pour vérifier le format de l'e-mail
+		    String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+		    if (!utilisateur.getEmail().matches(emailRegex)) {
+		        businessException.ajouterErreur(CodesResultatIHM.EMAIL_FORMAT_INCORRECT);
+		    }
 		}
 		if (utilisateur.getRue() == null || utilisateur.getRue().isEmpty()) {
 			businessException.ajouterErreur(CodesResultatIHM.RUE_USER_OBLIGATOIRE);
@@ -38,19 +47,33 @@ public class UtilisateurManager {
 			businessException.ajouterErreur(CodesResultatIHM.PASSWORD_USER_OBLIGATOIRE);
 		}
 
+		
+		try {
+			// CRypter le mot de passe
+			// Générer un sel (salt) avec un facteur de coût par défaut de 12
+			BCrypt.Hasher hasher = BCrypt.withDefaults();
+			// Hacher le mot de passe avec le sel généré
+			String hashedPassword = hasher.hashToString(12, utilisateur.getMotDePasse().toCharArray());
+			utilisateur.setMotDePasse(hashedPassword);
+
+			utilisateurDAO daoUtilisateur = DAOFactory.getDaoUtilisateur();
+			utilisateur = daoUtilisateur.insert(utilisateur);
+		} catch (SQLException e) {
+	        if (e instanceof SQLIntegrityConstraintViolationException) {
+	            // Capturer l'exception spécifique pour l'unicité du pseudo
+	            businessException.ajouterErreur(CodesResultatIHM.PSEUDO_DEJA_UTILISE);
+	        } else {
+	            // Traiter d'autres exceptions SQL si nécessaire
+	            e.printStackTrace();
+	            // Ajouter des erreurs à la BusinessException au besoin
+	        }
+	    }
+		
 		// Throw erreur si la liste des erreurs n'est pas vide
 		if (businessException.hasErreurs()) {
 			throw businessException;
-		}
-		// CRypter le mot de passe
-		// Générer un sel (salt) avec un facteur de coût par défaut de 12
-		BCrypt.Hasher hasher = BCrypt.withDefaults();
-		// Hacher le mot de passe avec le sel généré
-		String hashedPassword = hasher.hashToString(12, utilisateur.getMotDePasse().toCharArray());
-		utilisateur.setMotDePasse(hashedPassword);
-
-		utilisateurDAO daoUtilisateur = DAOFactory.getDaoUtilisateur();
-		return daoUtilisateur.insert(utilisateur);
+		} 
+		return utilisateur;
 	}
 
 	public Utilisateur connectUser(String username, String password) throws BusinessException {
