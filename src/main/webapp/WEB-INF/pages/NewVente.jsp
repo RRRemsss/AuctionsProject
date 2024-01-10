@@ -54,7 +54,7 @@
 
 				<div>
 					<label for="prixInitial">mise à prix:</label> <input type="number"
-						id="tentacles" name="prixInitial" min="100" max="100000" value="100" />
+						id="tentacles" name="prixInitial" min="0" max="100000" value="1" />
 				</div>
 
 				<div>

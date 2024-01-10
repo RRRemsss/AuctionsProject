@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.auctionsProject.bo.Article;
+import fr.eni.auctionsProject.bo.Enchere;
 import fr.eni.auctionsProject.bo.Retrait;
 import fr.eni.auctionsProject.bo.Utilisateur;
 import fr.eni.auctionsProject.dal.DAOFactory;
 import fr.eni.auctionsProject.dal.articleDAO;
+import fr.eni.auctionsProject.dal.enchereDAO;
 import fr.eni.auctionsProject.dal.retraitDAO;
 import fr.eni.auctionsProject.dal.utilisateurDAO;
 
@@ -31,7 +33,6 @@ public class ArticleManager {
 		retraitDAO daoRetrait = DAOFactory.getDaoRetrait();
 		Retrait retrait = daoRetrait.selectByIdRetrait(noArticle);
 		
-		System.out.println(retrait);
 		article.setRetrait(retrait);
 		
 		utilisateurDAO daoUtilisateur = DAOFactory.getDaoUtilisateur();
@@ -40,6 +41,36 @@ public class ArticleManager {
 		article.setUtilisateur(utilisateur);
 	
 		return article;
+	}
+	
+	public void insertEnchere (Enchere enchere, int noArticle) {
+		
+		//récupération de l'article
+		articleDAO daoArticle = DAOFactory.getDaoArticle();
+		Article article = daoArticle.selectById(noArticle);
+		enchere.setArticle(article);
+		
+		//Ajout de l'enchere
+		enchereDAO daoEnchere = DAOFactory.getDaoEnchere();
+		daoEnchere.insertEnchere(enchere);
+		
+		//mise à jour du prix de l'article
+		article.setPrixVente(enchere.getMontantEnchere());
+		daoArticle.updatePrixVente(article);
+		
+		//récupération de l'encherisseur
+		Utilisateur utilisateur = enchere.getUtilisateur();
+		
+		//récupération de la meilleure enchère
+		List<Enchere> encheres = daoEnchere.selectAllEnchereByArticle(noArticle);
+		
+		
+		//Mise à jour des crédits
+		utilisateur.setCredit(utilisateur.getCredit()-enchere.getMontantEnchere());
+		utilisateurDAO daoUtilisateur = DAOFactory.getDaoUtilisateur();
+		daoUtilisateur.updateCredit(enchere.getUtilisateur());
+		
+	
 	}
 	
 	
@@ -87,6 +118,7 @@ public class ArticleManager {
 		
 		return articlesFiltres;
 	}
+	
 	
 }	
 	

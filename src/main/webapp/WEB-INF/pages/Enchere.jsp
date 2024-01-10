@@ -46,9 +46,9 @@
 			</div>
 			<div>
 				<h3>Ma proposition :</h3>
-				<form action="POST">
+				<form method="POST">
 					<label for="tentacles">mise à prix:</label> <input type="number"
-						id="tentacles" name="mise a prix" min="0" max="100000" value="0" />
+						id="tentacles" name="MiseAPrix" min="${article_info.getPrixVente()}+1" max="100000" value="0" />
 					<button type="submit">Enchérir</button>
 				</form>
 			</div>

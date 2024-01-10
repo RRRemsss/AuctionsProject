@@ -19,4 +19,6 @@ public interface utilisateurDAO {
 	public Utilisateur selectByPseudo(String pseudo);
 	
 	public void updatePassword(Utilisateur utilisateur);
+	
+	public void updateCredit(Utilisateur utilisateur);
 }

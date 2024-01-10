@@ -17,6 +17,7 @@ public class articleDaoImpl implements articleDAO{
 	private final static String SELECT_ALL_ARTICLE = "SELECT * FROM ARTICLES ";
 	private final static String INSERT_ARTICLE = "INSERT INTO ARTICLES (nom_article, description, date_debut_encheres, "
 												+ "date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?,?)";
+	private static final String UPDATE_PRIX_VENTE = "UPDATE ARTICLES SET prix_vente=? WHERE no_article=?";
 	private final static String DELETE_ARTICLE = "DELETE FROM ARTICLES WHERE no_article =?";
 	
 	
@@ -32,8 +33,8 @@ public class articleDaoImpl implements articleDAO{
 
 			ResultSet result = pstmt.executeQuery();
 			if (result.next()) {
-				System.out.println("Test");
-				article = sqlMapperHelper.mapInArticle(result);
+				
+				article = sqlMapperHelper.mapOutArticle(result);
 				
 			};
 						
@@ -52,7 +53,7 @@ public class articleDaoImpl implements articleDAO{
 			ResultSet result = pstmt.executeQuery();
 
 			while (result.next()) {
-				Article article = sqlMapperHelper.mapInArticle(result);
+				Article article = sqlMapperHelper.mapOutArticle(result);
 				articles.add(article); }
 			
 			} catch (SQLException e) {
@@ -69,7 +70,7 @@ public class articleDaoImpl implements articleDAO{
 	try (Connection connection = ConnectionProvider.getConnection();
 		PreparedStatement pstmt = connection.prepareStatement(INSERT_ARTICLE, PreparedStatement.RETURN_GENERATED_KEYS);){
 		
-		sqlMapperHelper.mapOutArticle(pstmt, article);
+		sqlMapperHelper.mapInArticle(pstmt, article);
 		int nbRows = pstmt.executeUpdate();
 		if(nbRows > 0) {
 			try (ResultSet rs = pstmt.getGeneratedKeys()){
@@ -90,6 +91,7 @@ public class articleDaoImpl implements articleDAO{
 		try (Connection connection = ConnectionProvider.getConnection();
 			PreparedStatement pstmt = connection.prepareStatement(DELETE_ARTICLE);){
 				pstmt.setInt(1, noArticle);
+				
 				pstmt.executeUpdate();
 	
 			} catch (SQLException e) {
@@ -98,4 +100,19 @@ public class articleDaoImpl implements articleDAO{
 		
 	}
 
+	public void updatePrixVente (Article article)  {
+		try (Connection connection = ConnectionProvider.getConnection();
+				PreparedStatement pstmt = connection.prepareStatement(UPDATE_PRIX_VENTE);){
+			pstmt.setInt(1, article.getPrixVente());
+			pstmt.setInt(2, article.getNoArticle());
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		
+		}
+	}
+	
+	
 }

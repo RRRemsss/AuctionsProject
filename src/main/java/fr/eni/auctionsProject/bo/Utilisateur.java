@@ -82,6 +82,11 @@ public class Utilisateur {
 	public Utilisateur() {
 	}
 	
+	public Utilisateur(int noUtilisateur) {
+		super();
+		this.noUtilisateur = noUtilisateur;
+	}
+	
 	
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue,
 			String codePostal, String ville, String motDePasse) {

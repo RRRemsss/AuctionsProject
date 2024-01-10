@@ -28,6 +28,11 @@ public class Article {
 		this.utilisateur = utilisateur;
 	}
 
+	public Article(int noArticle) {
+		this.noArticle = noArticle;
+		
+	}
+
 
 
 	

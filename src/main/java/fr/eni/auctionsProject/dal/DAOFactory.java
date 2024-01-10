@@ -1,6 +1,7 @@
 package fr.eni.auctionsProject.dal;
 
 import fr.eni.auctionsProject.dal.jdbc.articleDaoImpl;
+import fr.eni.auctionsProject.dal.jdbc.enchereDaoImpl;
 import fr.eni.auctionsProject.dal.jdbc.retraitDaoImpl;
 import fr.eni.auctionsProject.dal.jdbc.utilisateurDaoImpl;
 
@@ -27,5 +28,13 @@ public class DAOFactory {
 			daoRetrait = new retraitDaoImpl();
 		}
 		return daoRetrait;
+	}
+	
+	private static enchereDAO daoEnchere;
+	public static enchereDAO getDaoEnchere() {
+		if(daoEnchere == null) {
+			daoEnchere = new enchereDaoImpl();
+		}
+		return daoEnchere;
 	}
 }

@@ -72,8 +72,7 @@ public class VenteServlet extends HttpServlet {
 	     retrait.setRue(rue);
 	     retrait.setCodePostal(cp);
 	     retrait.setVille(ville);
-	     System.out.println(article);
-	     System.out.println(retrait);
+	
 	   //Persist
 	     
 	     ArticleManager articleManager = ManagerFactory.getArticleManager();

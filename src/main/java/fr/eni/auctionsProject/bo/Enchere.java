@@ -7,8 +7,9 @@ public class Enchere {
 	private int noEnchere;
 	private LocalDate dateEnchere;
 	private int montantEnchere;
-	private int noArticle;
-	private int noUtilisateur;
+	
+	private Article article ;
+	private Utilisateur utilisateur;
 	/**
 	 * @param noEnchere
 	 * @param dateEnchere
@@ -16,12 +17,11 @@ public class Enchere {
 	 * @param noArticle
 	 * @param noUtilisateur
 	 */
-	public Enchere(int noEnchere, LocalDate dateEnchere, int montantEnchere, int noArticle, int noUtilisateur) {
+	public Enchere(int noEnchere, LocalDate dateEnchere, int montantEnchere) {
 		this.noEnchere = noEnchere;
 		this.dateEnchere = dateEnchere;
 		this.montantEnchere = montantEnchere;
-		this.noArticle = noArticle;
-		this.noUtilisateur = noUtilisateur;
+		
 	}
 	/**
 	 * @param dateEnchere
@@ -29,11 +29,10 @@ public class Enchere {
 	 * @param noArticle
 	 * @param noUtilisateur
 	 */
-	public Enchere(LocalDate dateEnchere, int montantEnchere, int noArticle, int noUtilisateur) {
+	public Enchere(LocalDate dateEnchere, int montantEnchere) {
 		this.dateEnchere = dateEnchere;
 		this.montantEnchere = montantEnchere;
-		this.noArticle = noArticle;
-		this.noUtilisateur = noUtilisateur;
+		
 	}
 	/**
 	 * 
@@ -76,36 +75,26 @@ public class Enchere {
 	public void setMontantEnchere(int montantEnchere) {
 		this.montantEnchere = montantEnchere;
 	}
-	/**
-	 * @return the noArticle
-	 */
-	public int getNoArticle() {
-		return noArticle;
-	}
-	/**
-	 * @param noArticle the noArticle to set
-	 */
-	public void setNoArticle(int noArticle) {
-		this.noArticle = noArticle;
-	}
-	/**
-	 * @return the noUtilisateur
-	 */
-	public int getNoUtilisateur() {
-		return noUtilisateur;
-	}
-	/**
-	 * @param noUtilisateur the noUtilisateur to set
-	 */
-	public void setNoUtilisateur(int noUtilisateur) {
-		this.noUtilisateur = noUtilisateur;
-	}
 	
+	
+	public Article getArticle() {
+		return article;
+	}
+	public void setArticle(Article article) {
+		this.article = article;
+	}
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
 	@Override
 	public String toString() {
 		return "Enchere [noEnchere=" + noEnchere + ", dateEnchere=" + dateEnchere + ", montantEnchere=" + montantEnchere
-				+ ", noArticle=" + noArticle + ", noUtilisateur=" + noUtilisateur + "]";
+				+ ", article=" + article + ", utilisateur=" + utilisateur + "]";
 	}
+	
 	
 	
 	

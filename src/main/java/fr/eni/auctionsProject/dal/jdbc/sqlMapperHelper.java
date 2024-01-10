@@ -4,18 +4,21 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import fr.eni.auctionsProject.bo.Article;
+import fr.eni.auctionsProject.bo.Enchere;
 import fr.eni.auctionsProject.bo.Retrait;
 
 public class sqlMapperHelper {
 
-	public static Article mapInArticle(ResultSet result) {
+	public static Article mapOutArticle(ResultSet result) {
 		Article article = new Article();
 		// Mapper en objet
-		int no_Article;
+		
 		try {
-			no_Article = result.getInt("no_Article");
+			int no_Article = result.getInt("no_Article");
 			String nom_article = result.getString("nom_article");
 			String description = result.getString("description");
 			Date date_debut_encheres = result.getDate("date_debut_encheres");
@@ -43,7 +46,7 @@ public class sqlMapperHelper {
 	}
 
 	
-	public static void mapOutArticle(PreparedStatement pstmt, Article article) {
+	public static void mapInArticle(PreparedStatement pstmt, Article article) {
 		// Remplir chaque ?
 		try {
 			pstmt.setString(1, article.getNomArticle());
@@ -86,7 +89,34 @@ public class sqlMapperHelper {
 		return retrait;
 	}
 
+	public static void mapInEnchere(PreparedStatement pstmt, Enchere enchere) {
+		// Remplir chaque ?
+		try {
+			pstmt.setDate(1, Date.valueOf(enchere.getDateEnchere()));
+			pstmt.setInt(2, enchere.getMontantEnchere());
+			pstmt.setInt(3, enchere.getArticle().getNoArticle());
+			pstmt.setInt(4, enchere.getUtilisateur().getNoUtilisateur());
+			
+		
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+		}
 
+	public static Enchere mapOutEnchere(ResultSet result) throws SQLException {
+		Enchere enchere = new Enchere();
+		try {
+			Date dateEnchere = result.getDate("date_fin_encheres");
+			int montantEnchere = result.getInt("prix_initial");
+			
+			enchere.setDateEnchere(dateEnchere.toLocalDate());
+			enchere.setMontantEnchere(montantEnchere);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	
+		return enchere;
+	}
 	
 }
 

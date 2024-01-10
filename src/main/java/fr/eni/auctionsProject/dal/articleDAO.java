@@ -16,4 +16,6 @@ public interface articleDAO {
 		public Article insert(Article article);
 
 		public void delete(int noArticle);
+		
+		public void updatePrixVente (Article article);
 }
