@@ -60,7 +60,7 @@ public class sqlMapperHelper {
 		}
 	}
 	
-	public static void mapOutRetrait(PreparedStatement pstmt, Retrait retrait) {
+	public static void mapInRetrait(PreparedStatement pstmt, Retrait retrait) {
 		// Remplir chaque ?
 		try {
 			pstmt.setInt(1, retrait.getNoArticle());
@@ -76,15 +76,14 @@ public class sqlMapperHelper {
 		}
 
 
-	public static Retrait mapOutRetrait(ResultSet result) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public static Article mapOutArticle(ResultSet result) {
-		// TODO Auto-generated method stub
-		return null;
+	public static Retrait mapOutRetrait(ResultSet result) throws SQLException {
+		Retrait retrait = new Retrait();
+		retrait.setNoArticle(result.getInt(1));
+		retrait.setRue(result.getString(2));
+		retrait.setCodePostal(result.getString(3));
+		retrait.setVille(result.getString(4));
+		
+		return retrait;
 	}
 
 

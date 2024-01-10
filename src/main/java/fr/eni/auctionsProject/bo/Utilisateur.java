@@ -14,6 +14,7 @@ public class Utilisateur {
 	private String motDePasse;
 	private int credit;
 	private boolean administrateur;
+	
 	/**
 	 * @param noUtilisateur
 	 * @param pseudo

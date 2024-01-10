@@ -14,6 +14,7 @@ public class Article {
 	private int noUtilisateur;
 	private int noCategorie;
 	private Utilisateur utilisateur;
+	private Retrait retrait;
 	
 	
 
@@ -56,7 +57,6 @@ public class Article {
 	}
 	
 	
-	
 	/**
 	 * @param nomArticle
 	 * @param description
@@ -68,6 +68,7 @@ public class Article {
 	 * @param noCategorie
 	 
 	 */
+	
 	public Article(String nomArticle, String description, LocalDate dateDebut, LocalDate dateFin, int prixInitial,
 			int prixVente, int noUtilisateur, int noCategorie) {
 		this.nomArticle = nomArticle;
@@ -223,6 +224,24 @@ public class Article {
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
 	}
+	
+	/**
+	 * @return the retrait
+	 */
+	public Retrait getRetrait() {
+		return retrait;
+	}
+
+
+
+
+	/**
+	 * @param retrait the retrait to set
+	 */
+	public void setRetrait(Retrait retrait) {
+		this.retrait = retrait;
+	}
+
 	
 	@Override
 	public String toString() {

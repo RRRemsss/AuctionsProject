@@ -80,14 +80,15 @@
 						<div class="buy-Sell">
 							<fieldset>
 								<legend>Achats</legend>
-								<input type="radio" name="deal" id="buy" onChange=gererCheckbox()>
-								<label for="buy">Achats</label> <input type="checkbox"
-									name="enchereOuverte" id="enchereOuverte" disabled> <label
-									for="enchereOuverte">Enchères ouvertes</label> <input
-									type="checkbox" name="mesEncheres" id="mesEncheres" disabled> <label
-									for="mesEncheres">Mes enchères</label> <input type="checkbox"
-									name="enchereGagnee" id="enchereGagnee" disabled> <label
-									for="enchereGagnee">Mes enchères remportées</label>
+								<input type="radio" name="deal" id="buy"
+									onChange=gererCheckbox()> <label for="buy">Achats</label>
+								<input type="checkbox" name="enchereOuverte" id="enchereOuverte"
+									disabled> <label for="enchereOuverte">Enchères
+									ouvertes</label> <input type="checkbox" name="mesEncheres"
+									id="mesEncheres" disabled> <label for="mesEncheres">Mes
+									enchères</label> <input type="checkbox" name="enchereGagnee"
+									id="enchereGagnee" disabled> <label for="enchereGagnee">Mes
+									enchères remportées</label>
 							</fieldset>
 
 							<fieldset>
@@ -114,11 +115,19 @@
 						<!-- Liste d'articles-->
 						<c:forEach var="article" items="${ListeArticles}">
 							<!-- Affichez les détails de chaque article -->
-							<article>
-								<p>${article.getNomArticle()}</p>
+							<article>	
+								<c:choose>
+									<c:when test="${!empty user}">
+										<a href="<c:url value="/EnchereServlet?id=${article.getNoArticle()}"/>">${article.getNomArticle()}</a>
+									</c:when>
+									<c:otherwise>
+										<p>${article.getNomArticle()}</p>
+									</c:otherwise>
+								</c:choose>
 								<p>Prix : ${article.getPrixInitial()}</p>
 								<p>Fin de l'enchère : ${article.getDateFin()}</p>
-								<p>Début de l'enchère : ${article.getDateDebut()}</p> <!-- À retirer -->
+								<p>Début de l'enchère : ${article.getDateDebut()}</p>
+								<!-- À retirer -->
 								<p>Vendeur : ${article.getUtilisateur().getPseudo()}</p>
 							</article>
 						</c:forEach>
@@ -127,6 +136,7 @@
 						<p>Aucun article disponible.</p>
 					</c:otherwise>
 				</c:choose>
+
 
 			</div>
 		</main>

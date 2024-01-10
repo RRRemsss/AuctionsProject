@@ -24,6 +24,26 @@ public class ArticleManager {
 
 	}
 	
+	public Article selectByArticle (int noArticle) {
+		articleDAO daoArticle = DAOFactory.getDaoArticle();
+		Article article = daoArticle.selectById(noArticle);
+		
+		retraitDAO daoRetrait = DAOFactory.getDaoRetrait();
+		Retrait retrait = daoRetrait.selectByIdRetrait(noArticle);
+		
+		System.out.println(retrait);
+		article.setRetrait(retrait);
+		
+		utilisateurDAO daoUtilisateur = DAOFactory.getDaoUtilisateur();
+		Utilisateur utilisateur= daoUtilisateur.selectById(article.getNoUtilisateur());
+		
+		article.setUtilisateur(utilisateur);
+	
+		return article;
+	}
+	
+	
+	
 	public List<Article> getArticleListe(){
 		List<Article> articles = new ArrayList<Article>();
 		articles = DAOFactory.getDaoArticle().selectAll();
