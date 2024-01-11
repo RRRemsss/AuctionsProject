@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="fr.eni.auctionsProject.exceptions.LecteurMessage"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ page import="java.time.LocalDate" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,7 +56,8 @@
 				<h3>Vendeur :</h3>
 				<p>${article_info.getUtilisateur().getPseudo()}</p>
 			</div>
-			<div>
+			<c:if test="${LocalDate.now().isBefore(article_info.getDateDebut()) || LocalDate.now().isEqual(article_info.getDateDebut())}">
+				<div>
 				<h3>Ma proposition :</h3>
 				<form method="POST">
 					<label for="tentacles">mise à prix:</label> <input type="number"
@@ -62,6 +65,7 @@
 					<button type="submit">Enchérir</button>
 				</form>
 			</div>
+			</c:if>
 		</main>
 	</section>
 </body>

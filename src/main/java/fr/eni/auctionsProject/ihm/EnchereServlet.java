@@ -35,6 +35,8 @@ public class EnchereServlet extends HttpServlet {
 	        ArticleManager articleManager = ManagerFactory.getArticleManager();
 	        Article article= articleManager.selectByArticle(noArticle);
 	        
+	        System.out.println(article);
+	        
 	        
 	        request.setAttribute("article_info", article);
 	    }
