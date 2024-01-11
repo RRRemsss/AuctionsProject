@@ -13,10 +13,35 @@ import fr.eni.auctionsProject.dal.articleDAO;
 import fr.eni.auctionsProject.dal.enchereDAO;
 import fr.eni.auctionsProject.dal.retraitDAO;
 import fr.eni.auctionsProject.dal.utilisateurDAO;
+import fr.eni.auctionsProject.exceptions.BusinessException;
+
 
 public class ArticleManager {
 
-	public void createArticle(Article article, Retrait retrait) {
+	public void createArticle(Article article, Retrait retrait) throws BusinessException {
+		
+		//gestion des erreurs
+		
+		BusinessException businessException = new BusinessException();
+		if (article.getNomArticle() == null || article.getNomArticle().isEmpty()) {
+			businessException.ajouterErreur(CodesResultatBLL.ARTICLE_NOM_OBLIGATOIRE);
+		}
+		if (article.getDescription() == null || article.getDescription().isEmpty()) {
+			businessException.ajouterErreur(CodesResultatBLL.ARTICLE_DESCRIPTION_OBLIGATOIRE);
+		}
+		if (article.getNoCategorie() == 0 ) {
+			businessException.ajouterErreur(CodesResultatBLL.ARTICLE_CATEGORIE_OBLIGATOIRE);
+		}
+		if (article.getPrixInitial() == 0 ) {
+			businessException.ajouterErreur(CodesResultatBLL.ARTICLE_PRIX_INITIAL_OBLIGATOIRE);
+		}
+		
+		
+		
+		// Throw erreur si la liste des erreurs n'est pas vide
+				if (businessException.hasErreurs()) {
+					throw businessException;
+				} 
 		articleDAO daoArticle = DAOFactory.getDaoArticle();
 		article = daoArticle.insert(article);
 
@@ -24,6 +49,7 @@ public class ArticleManager {
 		retrait.setNoArticle(article.getNoArticle());
 		daoRetrait.insert(retrait);
 
+		
 	}
 
 	public Article selectByArticle(int noArticle) {

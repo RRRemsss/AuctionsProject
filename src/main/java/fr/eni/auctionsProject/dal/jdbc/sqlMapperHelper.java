@@ -56,7 +56,7 @@ public class sqlMapperHelper {
 			pstmt.setInt(5, article.getPrixInitial());
 			pstmt.setInt(6, article.getPrixVente());
 			pstmt.setInt(7, article.getNoUtilisateur());
-			pstmt.setInt(8,1/* article.getNoCategorie()*/);
+			pstmt.setInt(8, article.getNoCategorie());
 			
 		}catch (SQLException e){
 			e.printStackTrace();

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="fr.eni.auctionsProject.exceptions.LecteurMessage" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
@@ -17,6 +18,15 @@
 	<section>
 		<main>
 			<h2>Nouvelle Vente</h2>
+			<c:if test="${!empty requestScope.listeErreurs}">
+				<div class="erreurs">
+					<ul>
+						<c:forEach var="codeErreur" items="${requestScope.listeErreurs}">
+							<li>${LecteurMessage.getMessageErreur(codeErreur)}</li>
+						</c:forEach>
+					</ul>
+				</div>
+			</c:if>
 			 
 			<form  method="POST">
 				<div>
@@ -25,7 +35,7 @@
 				</div>
 				<div>
 					<label for="nomArticle">Article</label>
-					<input type="text" id="name" name="nomArticle" required minlength="2" maxlength="20" size="10" placeholder="Article">
+					<input type="text" id="name" name="nomArticle"  minlength="2" maxlength="20" size="10" placeholder="Article">
 					
 				</div>
 				<div>
@@ -36,11 +46,11 @@
 				<div>
 				<label for="categorie">catégorie</label>
 					<select name="categorie" id="categorie-select">
-						<option value="">Toutes</option>
-						<option value="Informatique">Informatique</option>
-						<option value="Ameublement">Ameublement</option>
-						<option value="Vêtement">Vêtement</option>
-						<option value="Sport&Loisirs">Sport&Loisirs</option>
+						<option value="0">Toutes</option>
+						<option value="1">Informatique</option>
+						<option value="2">Ameublement</option>
+						<option value="3">Vêtement</option>
+						<option value="4">Sport&Loisirs</option>
 					</select>
 					
 				</div>
@@ -59,10 +69,10 @@
 
 				<div>
 					<label for="dateDebut">Début de l'enchère:</label> 
-						<input	type="date" id="dateDebut" name="dateDebut" value=""	min="" max="" /> 
+						<input	type="date" id="dateDebut" name="dateDebut" value="${LocalDate.now()}"	min="" max="" /> 
 						
 					<label for="dateFin">Fin de l'enchère:</label>
-						<input type="date" id="dateFin" name="dateFin" value="" min="" max="" />
+						<input type="date" id="dateFin" name="dateFin" value="${LocalDate.now()}" min="" max="" />
 				</div>
 
 				<div>
@@ -71,13 +81,13 @@
 							<legend>Retrait</legend> 
 								
 									<label for="street">Rue : </label> 
-										<input type="text" id="name" name="rue" required minlength="2" maxlength="20" size="10"  value ="rue des mouettes">
+										<input type="text" id="name" name="rue" required minlength="2" maxlength="20" size="10"  value ="${user.getRue()}">
 										 <br>
 									<label for="postCode">Codepostal : </label>
-										 <input type="text" id="name" name="cp" required	minlength="2" maxlength="20" size="10" value ="44800">
+										 <input type="text" id="name" name="cp" required	minlength="2" maxlength="20" size="10" value ="${user.getCodePostal()}">
 										  <br>
 									<label for="city">Ville : </label> 
-										<input type="text" id="name"name="ville" required minlength="2" maxlength="20" size="10" value ="Saint Herblain">	
+										<input type="text" id="name"name="ville" required minlength="2" maxlength="20" size="10" value ="${user.getVille()}">	
 							
 							
 						</fieldset>
