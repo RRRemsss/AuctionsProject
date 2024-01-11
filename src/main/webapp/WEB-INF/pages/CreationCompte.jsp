@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="fr.eni.auctionsProject.exceptions.LecteurMessage" %>
 <%@taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ include file="/WEB-INF/fragments/header.jsp" %> 
 <!DOCTYPE html>
 <html>
 <head>
