@@ -76,7 +76,7 @@
 				<h2>Filtres :</h2>
 				<form method="POST">
 					<input type="text" name="SearchFilter"
-						placeholder="Le nom de l'article contient" />
+						placeholder="Le nom de l'article contient" class="search"/>
 					<c:if test="${!empty user}">
 						<div class="buy-Sell">
 							<fieldset>
@@ -109,27 +109,25 @@
 				</form>
 			</div>
 
+				<h3>Liste des articles en vente :</h3>
 			<div class="articles">
-
 				<c:choose>
 					<c:when test="${!empty ListeArticles}">
 						<!-- Liste d'articles-->
 						<c:forEach var="article" items="${ListeArticles}">
 							<!-- Affichez les détails de chaque article -->
 							<article>	
-								<c:choose>
-									<c:when test="${!empty user}">
-										<a href="<c:url value="/EnchereServlet?id=${article.getNoArticle()}"/>">${article.getNomArticle()}</a>
-									</c:when>
-									<c:otherwise>
-										<p>${article.getNomArticle()}</p>
-									</c:otherwise>
-								</c:choose>
-								<p>Prix : ${article.getPrixInitial()}</p>
+								<div class="triangle"></div>
+								<h4>${article.getNomArticle()}</h4>
+								<div class="ligne"></div>
+								<p>Prix : ${article.getPrixInitial()} crédit(s)</p>
 								<p>Fin de l'enchère : ${article.getDateFin()}</p>
 								<p>Début de l'enchère : ${article.getDateDebut()}</p>
 								<!-- À retirer -->
-								<p>Vendeur : ${article.getUtilisateur().getPseudo()}</p>
+								<p>Vendeur : <a href="<c:url value="/ConsultationProfilServlet?pseudo=${article.getUtilisateur().getPseudo()}"/>">${article.getUtilisateur().getPseudo()}</a></p>
+								<c:if test="${!empty user}">
+										<a href="<c:url value="/EnchereServlet?id=${article.getNoArticle()}"/>" class="voir">VOIR</a>
+								</c:if>
 							</article>
 						</c:forEach>
 					</c:when>

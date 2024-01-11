@@ -40,7 +40,7 @@ main .ligne{
 .ligne :first-child{
 	font-weight: 600;
 }
-a{
+.modify-btn{
 	padding: 10px 0;
 	border-radius: 6px;
 	backdrop-filter: blur(12.5px);
@@ -62,6 +62,6 @@ a{
     text-align: center;
     line-height: 1.2;
 }
-a:hover{
+.modify-btn:hover{
 	transform: scale(1.05);
 }

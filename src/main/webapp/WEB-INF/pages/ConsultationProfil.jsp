@@ -49,7 +49,7 @@
                 </div>
             </div>
             <c:if test="${!empty user && sessionScope.user.getPseudo() == user_info.pseudo }">
-				<a href='<c:url value="/ModificationProfilServlet"/>'>Modifier</a>  
+				<a href='<c:url value="/ModificationProfilServlet"/>' class="modify-btn">Modifier</a>  
             </c:if>
 		</main>
 	</section>
