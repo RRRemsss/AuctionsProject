@@ -12,8 +12,8 @@
 <body>
 	<section>
 		<main>
-			<h1>Consultation du profil</h1>
-			<div>
+			<h1>Profil</h1>
+			<div class="infos">
                 <div class="ligne">
                     <p>Pseudo : </p>
                     <p>${user_info.pseudo}</p>
