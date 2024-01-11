@@ -89,7 +89,6 @@ public class VenteServlet extends HttpServlet {
 	      
 		}  catch (BusinessException e) {
 		    e.printStackTrace();
-		    System.out.println(e.getListeCodesErreur());
 		    request.setAttribute("listeErreurs", e.getListeCodesErreur());
 		    request.getRequestDispatcher("/WEB-INF/pages/NewVente.jsp").forward(request, response);
 		}

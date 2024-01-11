@@ -74,14 +74,17 @@
 
 				<fieldset class="input">
 					<legend>Retrait</legend>
-					<label for="street">Rue : </label> <input type="text" id="name"
-						name="rue" required minlength="2" maxlength="20" size="10"
-						value="${user.getRue()}"> <label for="postCode">Codepostal
-						: </label> <input type="text" id="name" name="cp" required minlength="2"
+					<label for="street">Rue : </label> 
+					<input type="text" id="name"
+						name="rue"  minlength="2" maxlength="20" size="10"
+						value="${user.getRue()}"> 
+					<label for="postCode">Codepostal : </label> 
+					<input type="text" id="name" name="cp"  minlength="2"
 						maxlength="20" size="10" value="${user.getCodePostal()}">
 
-					<label for="city">Ville : </label> <input type="text" id="name"
-						name="ville" required minlength="2" maxlength="20" size="10"
+					<label for="city">Ville : </label>
+					 <input type="text" id="name"
+						name="ville"  minlength="2" maxlength="20" size="10"
 						value="${user.getVille()}">
 
 

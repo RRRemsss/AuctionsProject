@@ -8,6 +8,7 @@ import fr.eni.auctionsProject.bll.ManagerFactory;
 import fr.eni.auctionsProject.bo.Article;
 import fr.eni.auctionsProject.bo.Enchere;
 import fr.eni.auctionsProject.bo.Utilisateur;
+import fr.eni.auctionsProject.exceptions.BusinessException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -46,22 +47,32 @@ public class EnchereServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Enchere enchere = new Enchere();
 		
-		enchere.setDateEnchere(LocalDate.now());
-		enchere.setMontantEnchere(Integer.parseInt(request.getParameter("MiseAPrix")));
+		try {
+			Enchere enchere = new Enchere();
+			
+			enchere.setDateEnchere(LocalDate.now());
+			enchere.setMontantEnchere(Integer.parseInt(request.getParameter("MiseAPrix")));
+			
+			HttpSession session =  request.getSession(false);
+			Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+			
+			enchere.setUtilisateur(utilisateur);
+			
+			int noArticle = Integer.parseInt (request.getParameter("id"));
+			
+			ArticleManager articleManager = ManagerFactory.getArticleManager();
+			
+			articleManager.insertEnchere(enchere, noArticle);
+			
+			response.sendRedirect(request.getContextPath() + "/EnchereServlet?id="+noArticle);
+		}  catch (BusinessException e) {
+		    e.printStackTrace();
+		    request.setAttribute("listeErreurs", e.getListeCodesErreur());
+		    doGet(request, response);
+		}
 		
-		HttpSession session =  request.getSession(false);
-		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 		
-		enchere.setUtilisateur(utilisateur);
-		
-		int noArticle = Integer.parseInt (request.getParameter("id"));
-		
-		ArticleManager articleManager = ManagerFactory.getArticleManager();
-		articleManager.insertEnchere(enchere, noArticle);
-		
-		response.sendRedirect(request.getContextPath() + "/EnchereServlet?id="+noArticle);
 	}
 
 }
