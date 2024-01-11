@@ -19,106 +19,115 @@ public class ArticleManager {
 	public void createArticle(Article article, Retrait retrait) {
 		articleDAO daoArticle = DAOFactory.getDaoArticle();
 		article = daoArticle.insert(article);
-	
+
 		retraitDAO daoRetrait = DAOFactory.getDaoRetrait();
 		retrait.setNoArticle(article.getNoArticle());
 		daoRetrait.insert(retrait);
 
 	}
-	
-	public Article selectByArticle (int noArticle) {
+
+	public Article selectByArticle(int noArticle) {
 		articleDAO daoArticle = DAOFactory.getDaoArticle();
 		Article article = daoArticle.selectById(noArticle);
-		
+
 		retraitDAO daoRetrait = DAOFactory.getDaoRetrait();
 		Retrait retrait = daoRetrait.selectByIdRetrait(noArticle);
-		
+
 		article.setRetrait(retrait);
-		
+
 		utilisateurDAO daoUtilisateur = DAOFactory.getDaoUtilisateur();
-		Utilisateur utilisateur= daoUtilisateur.selectById(article.getNoUtilisateur());
-		
+		Utilisateur utilisateur = daoUtilisateur.selectById(article.getNoUtilisateur());
+
 		article.setUtilisateur(utilisateur);
-	
+
 		return article;
 	}
-	
-	public void insertEnchere (Enchere enchere, int noArticle) {
-		
-		//récupération de l'article
+
+	public void insertEnchere(Enchere enchere, int noArticle) {
+
+		// récupération de l'article
 		articleDAO daoArticle = DAOFactory.getDaoArticle();
 		Article article = daoArticle.selectById(noArticle);
 		enchere.setArticle(article);
-		
-		//Ajout de l'enchere
+
+		// récupération de la meilleure enchère
 		enchereDAO daoEnchere = DAOFactory.getDaoEnchere();
-		daoEnchere.insertEnchere(enchere);
+		List<Enchere> encheres = daoEnchere.selectAllEnchereByArticle(noArticle);
+		Enchere enchereRecente = new Enchere();
+		for (Enchere enc : encheres) {
+			if (enc.getMontantEnchere() > enchereRecente.getMontantEnchere()) {
+				enchereRecente = enc;
+			}
+		}
 		
-		//mise à jour du prix de l'article
+		//Recréditer l'ancien enchérisseur
+		utilisateurDAO daoUtilisateur = DAOFactory.getDaoUtilisateur();
+		int noEncherisseurPerdant = enchereRecente.getUtilisateur().getNoUtilisateur();
+		Utilisateur utilisateurPerdant = daoUtilisateur.selectById(noEncherisseurPerdant);
+		utilisateurPerdant.setCredit(utilisateurPerdant.getCredit()+enchereRecente.getMontantEnchere());
+		daoUtilisateur.updateCredit(utilisateurPerdant);
+
+		// récupération de l'encherisseur
+		Utilisateur utilisateur = enchere.getUtilisateur();
+
+		// Mise à jour des crédits
+		utilisateur.setCredit(utilisateur.getCredit() - enchere.getMontantEnchere());
+		daoUtilisateur.updateCredit(enchere.getUtilisateur());
+
+		// Ajout de l'enchere
+		daoEnchere.insertEnchere(enchere);
+
+		// mise à jour du prix de l'article
 		article.setPrixVente(enchere.getMontantEnchere());
 		daoArticle.updatePrixVente(article);
-		
-		//récupération de l'encherisseur
-		Utilisateur utilisateur = enchere.getUtilisateur();
-		
-		//récupération de la meilleure enchère
-		List<Enchere> encheres = daoEnchere.selectAllEnchereByArticle(noArticle);
-		
-		
-		//Mise à jour des crédits
-		utilisateur.setCredit(utilisateur.getCredit()-enchere.getMontantEnchere());
-		utilisateurDAO daoUtilisateur = DAOFactory.getDaoUtilisateur();
-		daoUtilisateur.updateCredit(enchere.getUtilisateur());
-		
-	
+
 	}
-	
-	
-	
-	public List<Article> getArticleListe(){
+
+	public List<Article> getArticleListe() {
 		List<Article> articles = new ArrayList<Article>();
 		articles = DAOFactory.getDaoArticle().selectAll();
 		utilisateurDAO userDao = DAOFactory.getDaoUtilisateur();
-		for(Article article : articles) {
+		for (Article article : articles) {
 			article.setUtilisateur(userDao.selectById(article.getNoUtilisateur()));
 		}
 		return articles;
-		
-		
+
 	}
-	
-	public List<Article> FiltrerVente(Utilisateur utilisateur, boolean venteCours, boolean venteNonDebutee, boolean venteTerminee) {
+
+	public List<Article> FiltrerVente(Utilisateur utilisateur, boolean venteCours, boolean venteNonDebutee,
+			boolean venteTerminee) {
 		articleDAO DaoArticles = DAOFactory.getDaoArticle();
 		List<Article> articles = getArticleListe();
 		List<Article> articlesFiltres = new ArrayList<Article>();
-		
-		if(venteCours) {
-			for(Article article : articles) {
-				if(article.getDateDebut().isBefore(LocalDate.now()) && LocalDate.now().isBefore(article.getDateFin()) && article.getNoUtilisateur() == utilisateur.getNoUtilisateur()) {
+
+		if (venteCours) {
+			for (Article article : articles) {
+				if (article.getDateDebut().isBefore(LocalDate.now()) && LocalDate.now().isBefore(article.getDateFin())
+						&& article.getNoUtilisateur() == utilisateur.getNoUtilisateur()) {
 					articlesFiltres.add(article);
 				}
 			}
 		}
-		
-		if(venteNonDebutee) {
-			for(Article article : articles) {
-				if(LocalDate.now().isBefore(article.getDateDebut()) && article.getNoUtilisateur() == utilisateur.getNoUtilisateur()) {
+
+		if (venteNonDebutee) {
+			for (Article article : articles) {
+				if (LocalDate.now().isBefore(article.getDateDebut())
+						&& article.getNoUtilisateur() == utilisateur.getNoUtilisateur()) {
 					articlesFiltres.add(article);
 				}
 			}
 		}
-		
-		if(venteTerminee) {
-			for(Article article : articles) {
-				if((LocalDate.now().isEqual(article.getDateFin()) || LocalDate.now().isAfter(article.getDateFin())) && article.getNoUtilisateur() == utilisateur.getNoUtilisateur()) {
+
+		if (venteTerminee) {
+			for (Article article : articles) {
+				if ((LocalDate.now().isEqual(article.getDateFin()) || LocalDate.now().isAfter(article.getDateFin()))
+						&& article.getNoUtilisateur() == utilisateur.getNoUtilisateur()) {
 					articlesFiltres.add(article);
 				}
 			}
 		}
-		
+
 		return articlesFiltres;
 	}
-	
-	
-}	
-	
+
+}

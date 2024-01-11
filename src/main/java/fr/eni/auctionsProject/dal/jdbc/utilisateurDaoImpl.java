@@ -14,7 +14,7 @@ public class utilisateurDaoImpl implements utilisateurDAO {
 
 	private static final String SQL_INSERT_USER = "INSERT INTO utilisateurs (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) values (?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_SELECT_BY_PSEUDO = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit FROM utilisateurs WHERE pseudo=?";
-	private static final String SQL_SELECT_BY_ID = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe FROM utilisateurs WHERE no_utilisateur=?";
+	private static final String SQL_SELECT_BY_ID = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit FROM utilisateurs WHERE no_utilisateur=?";
 	private static final String SQL_UPDATE_USER = "UPDATE utilisateurs SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=? WHERE no_utilisateur=?";
 	private static final String SQL_UPDATE_PASSWORD = "UPDATE utilisateurs SET mot_de_passe=? WHERE no_utilisateur=?";
 	private static final String SQL_DELETE_USER = "DELETE FROM utilisateurs WHERE no_utilisateur=?";
@@ -40,6 +40,7 @@ public class utilisateurDaoImpl implements utilisateurDAO {
 				user.setCodePostal(rs.getString(8));
 				user.setVille(rs.getString(9));
 				user.setMotDePasse(rs.getString(10));
+				user.setCredit(rs.getInt(11));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
