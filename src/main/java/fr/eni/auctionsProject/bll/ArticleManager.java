@@ -54,18 +54,22 @@ public class ArticleManager {
 		enchereDAO daoEnchere = DAOFactory.getDaoEnchere();
 		List<Enchere> encheres = daoEnchere.selectAllEnchereByArticle(noArticle);
 		Enchere enchereRecente = new Enchere();
-		for (Enchere enc : encheres) {
-			if (enc.getMontantEnchere() > enchereRecente.getMontantEnchere()) {
-				enchereRecente = enc;
+		if(encheres.size()>0) {
+			for (Enchere enc : encheres) {
+				if (enc.getMontantEnchere() > enchereRecente.getMontantEnchere()) {
+					enchereRecente = enc;
+				}
 			}
 		}
 		
 		//Recréditer l'ancien enchérisseur
 		utilisateurDAO daoUtilisateur = DAOFactory.getDaoUtilisateur();
-		int noEncherisseurPerdant = enchereRecente.getUtilisateur().getNoUtilisateur();
-		Utilisateur utilisateurPerdant = daoUtilisateur.selectById(noEncherisseurPerdant);
-		utilisateurPerdant.setCredit(utilisateurPerdant.getCredit()+enchereRecente.getMontantEnchere());
-		daoUtilisateur.updateCredit(utilisateurPerdant);
+		if(enchereRecente.getUtilisateur() != null) {
+			int noEncherisseurPerdant = enchereRecente.getUtilisateur().getNoUtilisateur();
+			Utilisateur utilisateurPerdant = daoUtilisateur.selectById(noEncherisseurPerdant);
+			utilisateurPerdant.setCredit(utilisateurPerdant.getCredit()+enchereRecente.getMontantEnchere());
+			daoUtilisateur.updateCredit(utilisateurPerdant);
+		}
 
 		// récupération de l'encherisseur
 		Utilisateur utilisateur = enchere.getUtilisateur();
